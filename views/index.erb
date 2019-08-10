@@ -1,0 +1,11 @@
+
+<h1>掲示板</h1>
+
+ <a href="/post">投稿</a>
+  <% @posts.each do |post| %>
+  <article>
+    <p>名前：<%= post['name'] %></p>
+     <p>内容：<%= post['content'] %></p><button class="deleteCmd">[✖️]</button>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  </article>
+<% end %>
