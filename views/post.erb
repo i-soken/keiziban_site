@@ -1,7 +1,8 @@
-<form action="/post" method="post">
-<label for="name">名前</label>
-<input type="text" name="name" id="name" placeholder="名前を入力してください" required> 
-<label for="content">内容</label>
-<input type="text" name="content" id="content" placeholder="内容を入力してください" required>
-    <button type="submit">送信</button>
-</form>
+<form action="/post" method="POST" enctype="multipart/form-data">
+      <input type="name" name="name" placeholder="名前を入力してください" required>
+    <input type="content" name="content" placeholder="コメントを入力してください" required>
+    <input type="file" name="img" id="img" />
+      <input type="submit" value="送信する">
+    </form> 
+
+ 

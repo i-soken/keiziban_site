@@ -1,11 +1,12 @@
 
-<h1>掲示板</h1>
+<a href ="/post">投稿する</a> <a href ="/">ホームに戻る</a>
+   <div id="images">
+ <% @images.each do |image| %>
+ <img src="<%= "/public/images/#{image["image"]}" %>" width="200" height="200"/>
+ <p>name: <%= image["name"] %></p>
+ <p>content: <%= image["content"] %></p>
+ <% end %>
 
- <a href="/post">投稿</a>
-  <% @posts.each do |post| %>
-  <article>
-    <p>名前：<%= post['name'] %></p>
-     <p>内容：<%= post['content'] %></p><button class="deleteCmd">[✖️]</button>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  </article>
-<% end %>
+</div>
+
+ 

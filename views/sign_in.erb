@@ -1,9 +1,20 @@
 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
-<form action="/sign_in" method="post">
-<label for="name">名前</label>
-<input type="text" name="name" id="name" placeholder="名前を入力してください" required> 
-<label for="password">パスワード</label>
-<input type="text" name="password" id="password" placeholder="パスワードを入力してください" required>
-    <button type="submit">ログイン</button>
-</form>
+<link rel="stylesheet" href="/css/style.css">
+<div class = "container">
+	<div class="wrapper">
+		<form action="/sign_in" method="post" name="Login_Form" class="form-signin">       
+		    <h3 class="form-signin-heading">ログイン</h3>
+			  <hr class="colorgraph"><br>
+			  
+			  <input type="text" class="form-control" name="name" placeholder="名前を入力してください" required/>
+			  <input type="password" class="form-control" name="password" placeholder="password" required=/>     		  
+			 
+			  <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>  			
+		</form>			
+	</div>
+</div>
