@@ -6,6 +6,10 @@
   require 'pg'
   
 
+  set :public_folder, 'public'
+  enable :sessions
+
+
   def db
     host = 'localhost'
     user = 'zujianyuye' #自分のユーザー名を入れる
@@ -25,7 +29,7 @@
       session[:user_id].nil? == true
       erb :home
     else
-      redirect 'index'
+      redirect '/sign_in'
   end
 end
 
@@ -42,10 +46,9 @@ end
   post '/post' do
     name = params[:name]
     content = params[:content]
-    image = params[:img][:filename]
     @file_name = params[:img][:filename]
     FileUtils.mv(params[:img][:tempfile], "./public/images/#{@file_name}")
-    db.exec_params("INSERT INTO images(name,content,image) VALUES($1,$2,$3)",[name,content,image])
+    db.exec_params("INSERT INTO images(name,content,image) VALUES($1,$2,$3)",[name,content,@file_name])
     redirect '/index'
   end
 
@@ -93,3 +96,9 @@ end
   get '/yet_sign_up' do
     erb :yet_sign_up
   end
+
+  post '/del/:id' do
+    db.exec("DELETE FROM images where id = $1",[params[:id]])
+    redirect '/index'
+  end
+

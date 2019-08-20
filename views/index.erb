@@ -1,11 +1,19 @@
 
-<a href ="/post">投稿する</a> <a href ="/">ホームに戻る</a>
+<a href ="/post">投稿する</a> <a href ="/">ログイン画面へ戻る</a>
    <div id="images">
+ <ul>
  <% @images.each do |image| %>
- <img src="<%= "/public/images/#{image["image"]}" %>" width="200" height="200"/>
+ <img src="<%= "/images/#{image["image"]}" %>" class= "img-responsive img-thumbnail" width="1000" height="1000"/>
  <p>name: <%= image["name"] %></p>
- <p>content: <%= image["content"] %></p>
+ <p>comment: <%= image["content"] %></p> 
+ <form method="post" action="del/<%= image["id"]%>">
+ <input type="hidden" name="" value="delete">
+ <td><input type="submit" value="削除"></td>
+  
+ </form>
  <% end %>
+
+ </ul>
 
 </div>
 
