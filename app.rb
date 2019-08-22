@@ -34,23 +34,32 @@
 end
 
   get '/index' do
+    if session[:user_id].nil? == true
+      redirect '/sign_in'
+    else
     @images = db.exec_params('select * from images')
-
     erb :index
   end
+end
 
   get '/post' do
     erb :post
   end
 
   post '/post' do
+    if 
+      session[:user_id].nil? == true
+      redirect '/sign_in'
+    else
+    users_name = db.exec("SELECT name FROM users WHERE id = $1",[session[:users_id]]).first
     name = params[:name]
     content = params[:content]
     @file_name = params[:img][:filename]
     FileUtils.mv(params[:img][:tempfile], "./public/images/#{@file_name}")
-    db.exec_params("INSERT INTO images(name,content,image) VALUES($1,$2,$3)",[name,content,@file_name])
+    db.exec_params("INSERT INTO images(name,content,image,user_id) VALUES($1,$2,$3,$4)",[name,content,@file_name,session[:user_id],])
     redirect '/index'
   end
+end
 
   
   get '/sign_up' do
@@ -98,7 +107,31 @@ end
   end
 
   post '/del/:id' do
+  if session[:user_id] == db.exec("SELECT user_id FROM images WHERE id = $1",[params[:id]]).first()["user_id"]
     db.exec("DELETE FROM images where id = $1",[params[:id]])
+    erb :del
+  else
     redirect '/index'
   end
+end
+
+post '/follow/:id' do
+id = params[:id]
+if id == db.exec("SELECT followed FROM follows")
+  db.exec("INSERT INTO follows(following,followed) VALUES($1,$2)",[session[:user_id],params[:id]])
+  redirect '/index'
+else
+  erb :following
+  end
+end
+
+post '/unfollow/:id' do
+id = params[:id]
+if db.exec("SELECT * FROM follows WHERE following = $1 AND followed = $2",[session[:user_id],params[:id]])
+   db.exec("DELETE FROM follows where id = $1",[params[:id]])
+   erb :unfollow
+else
+  redirect '/index'
+  end
+end
 
