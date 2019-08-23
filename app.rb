@@ -126,12 +126,7 @@ else
 end
 
 post '/unfollow/:id' do
-id = params[:id]
-if db.exec("SELECT * FROM follows WHERE following = $1 AND followed = $2",[session[:user_id],params[:id]])
-   db.exec("DELETE FROM follows where id = $1",[params[:id]])
-   erb :unfollow
-else
-  redirect '/index'
-  end
+  id = params[:id]
+  db.exec("DELETE FROM follows WHERE following = $1 AND followed = $2",[session[:user_id],params[:id]])
+  erb :unfollow
 end
-
