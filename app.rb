@@ -34,6 +34,7 @@
 end
 
   get '/index' do
+    @my_id = session[:user_id]
     if session[:user_id].nil? == true
       redirect '/sign_in'
     else
@@ -117,16 +118,20 @@ end
 
 post '/follow/:id' do
 id = params[:id]
-if id == db.exec("SELECT followed FROM follows")
-  db.exec("INSERT INTO follows(following,followed) VALUES($1,$2)",[session[:user_id],params[:id]])
+  if db.exec_params("SELECT id FROM follows WHERE following =$1 AND followed = $2",[session[:user_id],params[:id]]).first == nil
+    db.exec("INSERT INTO follows(following,followed) VALUES($1,$2)",[session[:user_id],params[:id]])
+    erb :following
+  else
   redirect '/index'
-else
-  erb :following
   end
 end
 
 post '/unfollow/:id' do
   id = params[:id]
+ if db.exec_params("SELECT id FROM follows WHERE following =$1 AND followed = $2",[session[:user_id],params[:id]]).first
   db.exec("DELETE FROM follows WHERE following = $1 AND followed = $2",[session[:user_id],params[:id]])
   erb :unfollow
+ else
+  redirect '/index'
+ end
 end

@@ -3,24 +3,30 @@
   <i class="fa fa-chevron-right"></i> 投稿する
   
 <a href="/" class="btn-flat-logo">
-  <i class="fa fa-chevron-right"></i> ログイン画面へ
+  <i class="fa fa-chevron-right"></i> ログアウト
 </a>
  <ul>
  <% @images.each do |image| %>
- <img src="<%= "/images/#{image["image"]}" %>" class= "img-responsive img-thumbnail" width="1000" height="1000"/>
+ <img src="<%= "/images/#{image["image"]}" %>" class= "img-responsive img-thumbnail" width="1200" height="1200"/>
 
- <p> @<%= image["name"] %>: <%= image["content"] %></p>
-
+ <h3> @<%= image["name"] %>: <%= image["content"] %></h3>
+<% if @my_id != image["user_id"]%>
+<div class="form_conf">
  <form method="post" action="follow/<%= image["user_id"]%>">
  <td><input type="submit" class ="btn-square-shadow" value="フォローする"></td></form>
-
   <form method="post" action="unfollow/<%= image["user_id"]%>">
  <input type="submit" class ="btn-square-shadow" value="フォロー解除"></form>
- 
+ </div>
+ <% else %>
+<% end %>
+<% if @my_id == image["user_id"]%>
  <form method="post" action="del/<%= image["id"]%>">
  <input type="hidden" name="" value="delete">
  <td><input type="submit" class ="btn-square-shadow" value="削除"></td></form>
+ <% else %>
  <% end %>
+<% end %>
+
 
  
 
