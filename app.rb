@@ -80,7 +80,6 @@ end
   end
 end
 
-
   get '/sign_in' do
     erb :sign_in
   end
@@ -120,7 +119,7 @@ post '/follow/:id' do
 id = params[:id]
   if db.exec_params("SELECT id FROM follows WHERE following =$1 AND followed = $2",[session[:user_id],params[:id]]).first == nil
     db.exec("INSERT INTO follows(following,followed) VALUES($1,$2)",[session[:user_id],params[:id]])
-    erb :following
+    erb :follow_now
   else
   redirect '/index'
   end
@@ -133,5 +132,12 @@ post '/unfollow/:id' do
   erb :unfollow
  else
   redirect '/index'
- end
+  end
 end
+
+get '/following' do
+  @following = db.exec("SELECT * FROM images LEFT JOIN follows ON images.id = follows.id WHERE following = $1",[session[:user_id]])
+  erb :following
+end
+
+
